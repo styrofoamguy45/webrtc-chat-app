@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebRTC Chat & Video Call</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+      <div class="login-container">
+        <h1>🎥 WebRTC Chat</h1>
+        <p class="subtitle">Video calls & chat with UserIDs</p>
+        
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Your Name</label>
+            <input type="text" id="username" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="room-id">Room ID (optional)</label>
+            <input type="text" id="room-id" placeholder="Leave empty for 'general' room">
+          </div>
+          <button type="submit" class="btn btn-primary">Join Room</button>
+        </form>
+        
+        <div class="info">
+          <p>Share your Room ID with others to chat and call</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Chat Screen -->
+    <div id="chat-screen" class="screen">
+      <header class="chat-header">
+        <div class="header-left">
+          <h2 id="room-name">Room: general</h2>
+          <span id="user-count" class="user-count">1 user</span>
+        </div>
+        <div class="header-right">
+          <span id="my-userid" class="user-id" title="Click to copy">Your ID: loading...</span>
+          <button id="leave-btn" class="btn btn-secondary">Leave</button>
+        </div>
+      </header>
+
+      <div class="chat-main">
+        <!-- Sidebar: Users List -->
+        <aside class="sidebar">
+          <h3>Users Online</h3>
+          <ul id="users-list" class="users-list"></ul>
+        </aside>
+
+        <!-- Chat Area -->
+        <main class="chat-area">
+          <div id="messages" class="messages"></div>
+          
+          <form id="chat-form" class="chat-form">
+            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+            <button type="submit" class="btn btn-primary">Send</button>
+          </form>
+        </main>
+
+        <!-- Video Call Area -->
+        <aside class="video-sidebar" id="video-sidebar">
+          <div class="video-header">
+            <h3>Video Call</h3>
+            <button id="close-video" class="btn-icon" title="Close">✕</button>
+          </div>
+          
+          <div class="video-container">
+            <video id="remote-video" autoplay playsinline></video>
+            <video id="local-video" autoplay playsinline muted class="local-video"></video>
+          </div>
+          
+          <div class="call-controls">
+            <button id="toggle-audio" class="btn-call-control" title="Toggle Audio">
+              <span class="icon">🔊</span>
+            </button>
+            <button id="toggle-video" class="btn-call-control" title="Toggle Video">
+              <span class="icon">📹</span>
+            </button>
+            <button id="end-call" class="btn-call-control btn-end" title="End Call">
+              <span class="icon">📞</span>
+            </button>
+          </div>
+          
+          <div id="call-status" class="call-status hidden">Connecting...</div>
+        </aside>
+      </div>
+
+      <!-- Incoming Call Modal -->
+      <div id="incoming-call-modal" class="modal hidden">
+        <div class="modal-content">
+          <div class="caller-info">
+            <div class="caller-avatar">👤</div>
+            <h3 id="caller-name">Incoming Call</h3>
+            <p id="call-type">Video Call</p>
+          </div>
+          <div class="modal-actions">
+            <button id="accept-call" class="btn btn-success">Accept</button>
+            <button id="reject-call" class="btn btn-danger">Reject</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+npm-debug.log*
+.env
+.DS_Store
+
+# Vercel (if used)
+.vercel
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+test_uploads/

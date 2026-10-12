@@ -1,0 +1,15 @@
+{
+  "name": "webrtc-chat-app",
+  "version": "1.0.0",
+  "description": "WebRTC Chat & Video Calling App",
+  "private": true,
+  "workspaces": [
+    "server"
+  ],
+  "scripts": {
+    "install-all": "cd server && npm install",
+    "start": "cd server && npm start",
+    "dev": "cd server && npm start",
+    "test": "node -e \"console.log('Server ready')\""
+  }
+}
