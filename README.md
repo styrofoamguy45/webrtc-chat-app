@@ -42,36 +42,48 @@ Open multiple browser tabs/windows to test with multiple users.
 
 This app splits frontend and backend. The frontend (HTML/CSS/JS) is static and can be hosted free on GitHub Pages. The backend (Node.js WebSocket server) runs on Railway's free tier.
 
-**Step 1: Deploy the signaling server (Railway)**
+### Step 1: Deploy the signaling server (Railway)
 
-1. Go to [railway.app](https://railway.app) and sign up with GitHub
-2. Click "New Project" → "Deploy from GitHub repo"
-3. Select your fork of this repository
-4. In the Railway dashboard, set the build/start commands:
-   - Build command: `npm install` (in `server/` directory)
-   - Start command: `npm start` (in `server/` directory)
-5. In **Settings → Variables**, set:
-   - `PORT`: `3000`
-6. Click "Deploy" — once deployed, you'll get a URL like `https://your-app.up.railway.app`
+Go to https://railway.app, sign up with GitHub, then:
 
-**Step 2: Deploy the frontend (GitHub Pages)**
+1. **New Project** → "Deploy from GitHub repo" → select `webrtc-chat-app`
+2. Railway auto-detects Node.js and runs:
+   - Build: `npm install`
+   - Start: `npm start`
+3. Click "Deploy" — wait ~30 seconds
+4. You'll get a URL like `https://webrtc-chat.up.railway.app`
+5. Click that URL to verify the server is live: you should see a blank page or "Cannot GET /" — that means the server is running and accepting connections
+6. **Copy your Railway project URL** — you'll need it for Step 3
 
-1. In your repo on GitHub, go to **Settings → Pages**
-2. Under "Build and deployment", set:
-   - Source: "GitHub Actions"
-   - The workflow `pages.yml` will auto-detect
-3. Click "Save" — GitHub Actions builds and deploys automatically
-4. You'll get a URL like `https://yourusername.github.io/webrtc-chat-app/`
+### Step 2: Deploy the frontend (GitHub Pages)
 
-**Step 3: Wire the frontend to the backend**
+Already done! This repo is configured to auto-deploy on every push to GitHub Pages at:
+`https://styrofoamguy45.github.io/webrtc-chat-app/`
 
-Edit `client/public/index.html` and update the signaling-server meta tag with your Railway WebSocket URL:
+GitHub Actions builds it automatically — no action needed from you except to push changes.
+
+### Step 3: Connect the frontend to your server
+
+This is the **critical step** — the frontend needs to know where your signaling server lives.
+
+Edit `client/public/index.html`:
 
 ```html
-<meta name="signaling-server" content="wss://<your-app>.up.railway.app">
+<!-- Find this line (currently empty): -->
+<meta name="signaling-server" content="">
+
+<!-- Change it to your Railway URL (replace YOUR-APP with your Railway URL): -->
+<meta name="signaling-server" content="wss://YOUR-APP.up.railway.app">
 ```
 
-Commit and push — GitHub Pages will rebuild with the correct backend URL.
+Then commit and push:
+```bash
+git add client/public/index.html
+git commit -m "Connect to Railway backend"
+git push
+```
+
+GitHub Pages will rebuild in ~20 seconds. Your app is now live at the GitHub Pages URL and connected to your server!
 
 ### Option 1: Railway (All-in-One - Single Server)
 
