@@ -103,10 +103,22 @@ class WebRTCChat {
     await this.connectWebSocket();
   }
   
+  getSignalingServerUrl() {
+    // Check for configured signaling server URL (set via meta tag for GitHub Pages)
+    const metaUrl = document.querySelector('meta[name="signaling-server"]')?.content;
+    if (metaUrl) return metaUrl;
+
+    // Check for global config (for runtime overrides)
+    if (window.SIGNALING_SERVER_URL) return window.SIGNALING_SERVER_URL;
+
+    // Fallback to same origin (works for local dev and co-located deployments)
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    return `${protocol}//${window.location.host}`;
+  }
+
   connectWebSocket() {
     return new Promise((resolve, reject) => {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}`;
+      const wsUrl = this.getSignalingServerUrl();
       
       this.ws = new WebSocket(wsUrl);
       
